@@ -39,18 +39,22 @@ export class Category {
 
   changeName(name: string): void {
     this.name = name;
+    Category.validate(this);
   }
 
   changeDescription(description: string | null): void {
     this.description = description;
+    Category.validate(this);
   }
 
   activate() {
     this.is_active = true;
+    Category.validate(this);
   }
 
   deactivate() {
     this.is_active = false;
+    Category.validate(this);
   }
 
   static validate(entity: Category) {
