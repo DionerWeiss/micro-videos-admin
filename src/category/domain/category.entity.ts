@@ -64,6 +64,12 @@ export class Category extends Entity {
     Category.validate(this);
   }
 
+  update(name: string, description: string) {
+    this.name = name;
+    this.description = description;
+    Category.validate(this);
+  }
+
   static validate(entity: Category) {
     const validator = CategoryValidatorFactory.create();
     const isValid = validator.validate(entity);

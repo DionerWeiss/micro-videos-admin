@@ -139,6 +139,18 @@ describe("Category Unit Tests", () => {
     category.deactivate();
     expect(category.is_active).toBe(false);
   });
+
+  test("should update a category", () => {
+    const category = Category.create({
+      name: "Filmes",
+      description: "Categoria de filmes",
+    });
+
+    category.update("Séries", "Categoria de séries");
+
+    expect(category.name).toBe("Séries");
+    expect(category.description).toBe("Categoria de séries");
+  });
 });
 
 describe("Category Validator", () => {
