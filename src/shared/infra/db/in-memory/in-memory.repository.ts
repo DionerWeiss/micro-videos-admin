@@ -21,8 +21,7 @@ export abstract class InMemoryRepository<
   async insert(entity: E): Promise<void> {
     this.items.push(entity);
   }
-
-  async bulkInsert(entities: E[]): Promise<void> {
+  async bulkInsert(entities: any[]): Promise<void> {
     this.items.push(...entities);
   }
 
@@ -30,11 +29,9 @@ export abstract class InMemoryRepository<
     const indexFound = this.items.findIndex((item) =>
       item.entity_id.equals(entity.entity_id)
     );
-
     if (indexFound === -1) {
       throw new NotFoundError(entity.entity_id, this.getEntity());
     }
-
     this.items[indexFound] = entity;
   }
 
@@ -45,24 +42,18 @@ export abstract class InMemoryRepository<
     if (indexFound === -1) {
       throw new NotFoundError(entity_id, this.getEntity());
     }
-
     this.items.splice(indexFound, 1);
   }
 
-  async findById(entity_id: EntityId): Promise<E | null> {
-    return this._get(entity_id);
-  }
-
-  async findAll(): Promise<E[]> {
-    return this.items;
-  }
-
-  abstract getEntity(): new (...args: any[]) => E;
-
-  protected async _get(entity_id: EntityId) {
+  async findById(entity_id: EntityId): Promise<E> {
     const item = this.items.find((item) => item.entity_id.equals(entity_id));
     return typeof item === "undefined" ? null : item;
   }
+
+  async findAll(): Promise<any[]> {
+    return this.items;
+  }
+  abstract getEntity(): new (...args: any[]) => E;
 }
 
 export abstract class InMemorySearchableRepository<
@@ -73,9 +64,8 @@ export abstract class InMemorySearchableRepository<
   extends InMemoryRepository<E, EntityId>
   implements ISearchableRepository<E, EntityId, Filter>
 {
-  sortableFields: string[];
-
-  async search(props: SearchParams<Filter>): Promise<SearchResult<Entity>> {
+  sortableFields: string[] = [];
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = this.applySort(
       itemsFiltered,
@@ -87,7 +77,6 @@ export abstract class InMemorySearchableRepository<
       props.page,
       props.per_page
     );
-
     return new SearchResult({
       items: itemsPaginated,
       total: itemsFiltered.length,
