@@ -1,7 +1,8 @@
 import { Entity } from "../../shared/domain/entity";
-import { EntityValidationError } from "../../shared/domain/validators/validation.error";
 import { ValueObject } from "../../shared/domain/value-object";
+//import ValidatorRules from "../../shared/domain/validators/validator-rules";
 import { Uuid } from "../../shared/domain/value-objects/uuid.vo";
+import { CategoryFakeBuilder } from "./category-fake.builder";
 import { CategoryValidatorFactory } from "./category.validator";
 
 export type CategoryConstructorProps = {
@@ -19,7 +20,7 @@ export type CategoryCreateCommand = {
 };
 
 export class Category extends Entity {
-  category_id?: Uuid;
+  category_id: Uuid;
   name: string;
   description: string | null;
   is_active: boolean;
@@ -40,46 +41,40 @@ export class Category extends Entity {
 
   static create(props: CategoryCreateCommand): Category {
     const category = new Category(props);
-    Category.validate(category);
+    //category.validate();
+    category.validate(["name"]);
     return category;
   }
 
   changeName(name: string): void {
     this.name = name;
-    Category.validate(this);
+    this.validate(["name"]);
   }
 
-  changeDescription(description: string | null): void {
+  changeDescription(description: string): void {
     this.description = description;
-    Category.validate(this);
   }
 
   activate() {
     this.is_active = true;
-    Category.validate(this);
   }
 
   deactivate() {
     this.is_active = false;
-    Category.validate(this);
   }
 
-  update(name: string, description: string) {
-    this.name = name;
-    this.description = description;
-    Category.validate(this);
-  }
-
-  static validate(entity: Category) {
+  validate(fields?: string[]) {
     const validator = CategoryValidatorFactory.create();
-    const isValid = validator.validate(entity);
-    if (!isValid) {
-      throw new EntityValidationError(validator.errors);
-    }
+    return validator.validate(this.notification, this, fields);
   }
+
+  static fake() {
+    return CategoryFakeBuilder;
+  }
+
   toJSON() {
     return {
-      category_id: this.category_id?.id,
+      category_id: this.category_id.id,
       name: this.name,
       description: this.description,
       is_active: this.is_active,
