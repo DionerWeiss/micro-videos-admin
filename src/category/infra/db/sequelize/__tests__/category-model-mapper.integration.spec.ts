@@ -19,13 +19,11 @@ describe("CategoryModelMapper Integration Tests", () => {
       );
     } catch (e) {
       expect(e).toBeInstanceOf(EntityValidationError);
-      expect((e as EntityValidationError).error).toMatchObject({
-        name: [
-          "name should not be empty",
-          "name must be a string",
-          "name must be shorter than or equal to 255 characters",
-        ],
-      });
+      expect((e as EntityValidationError).error).toMatchObject([
+        {
+          name: ["name must be shorter than or equal to 255 characters"],
+        },
+      ]);
     }
   });
 

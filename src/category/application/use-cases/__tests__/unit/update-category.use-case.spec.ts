@@ -16,6 +16,17 @@ describe("UpdateCategoryUseCase Unit Tests", () => {
     useCase = new UpdateCategoryUseCase(repository);
   });
 
+  it("should throw an error when aggregate is not valid", async () => {
+    const aggregate = new Category({ name: "Movie" });
+    repository.items = [aggregate];
+    await expect(() =>
+      useCase.execute({
+        id: aggregate.category_id.id,
+        name: "t".repeat(256),
+      })
+    ).rejects.toThrowError("Entity Validation Error");
+  });
+
   it("should throws error when entity not found", async () => {
     await expect(() =>
       useCase.execute({ id: "fake id", name: "fake" })
