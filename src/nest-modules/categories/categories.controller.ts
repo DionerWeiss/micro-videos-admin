@@ -7,6 +7,8 @@ import { UpdateCategoryUseCase } from '@core/category/application/use-cases/upda
 import {
   Body,
   Controller,
+  Delete,
+  HttpCode,
   Inject,
   Param,
   ParseUUIDPipe,
@@ -50,6 +52,14 @@ export class CategoriesController {
       id,
     });
     return CategoriesController.serialize(output);
+  }
+
+  @HttpCode(204)
+  @Delete(':id')
+  remove(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
+  ) {
+    return this.deleteUseCase.execute({ id });
   }
 
   static serialize(output: CategoryOutput) {
