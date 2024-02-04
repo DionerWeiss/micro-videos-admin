@@ -20,9 +20,9 @@ import {
 import {
   CategoryCollectionPresenter,
   CategoryPresenter,
-} from 'src/nest-modules/categories/categories.presenter';
-import { SearchCategoriesDto } from 'src/nest-modules/categories/dto/search-categories.dto';
-import { UpdateCategoryDto } from 'src/nest-modules/categories/dto/update-category.dto';
+} from 'src/nest-modules/categories-module/categories.presenter';
+import { SearchCategoriesDto } from 'src/nest-modules/categories-module/dto/search-categories.dto';
+import { UpdateCategoryDto } from 'src/nest-modules/categories-module/dto/update-category.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Controller('categories')

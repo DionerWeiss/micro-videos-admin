@@ -1,7 +1,7 @@
 import { CategoryModel } from '@core/category/infra/db/sequelize/category.model';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { CATEGORY_PROVIDERS } from 'src/nest-modules/categories/categories.providers';
+import { CATEGORY_PROVIDERS } from 'src/nest-modules/categories-module/categories.providers';
 import { CategoriesController } from './categories.controller';
 
 @Module({
