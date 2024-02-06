@@ -1,5 +1,6 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { EntityValidationErrorFilter } from 'src/nest-modules/shared-module/filter/entity-validation-error/entity-validation-error.filter';
 import { NotFoundErrorFilter } from 'src/nest-modules/shared-module/filter/not-found/not-found.filter';
 import { WrapperDataInterceptor } from 'src/nest-modules/shared-module/interceptors/wrapper-data/wrapper-data.interceptor';
 import { AppModule } from './app.module';
@@ -16,7 +17,10 @@ async function bootstrap() {
     new ClassSerializerInterceptor(app.get(Reflector)),
     new WrapperDataInterceptor(),
   );
-  app.useGlobalFilters(new NotFoundErrorFilter());
+  app.useGlobalFilters(
+    new EntityValidationErrorFilter(),
+    new NotFoundErrorFilter(),
+  );
   await app.listen(3000);
 }
 bootstrap();
