@@ -6,7 +6,7 @@ const config: Config = {
   rootDir: '.',
   testEnvironment: 'node',
   coverageProvider: 'v8',
-  testRegex: '.e2e-spec.ts$',
+  testRegex: '.e2e.spec.ts$',
   transform: {
     '^.+\\.(t|j)s$': '@swc/jest',
   },
