@@ -1,8 +1,7 @@
-import { Category } from '@core/category/domain/category.aggregate';
+import { Category, CategoryId } from '@core/category/domain/category.aggregate';
 import { CategoryModelMapper } from '@core/category/infra/db/sequelize/category-model-mapper';
 import { CategoryModel } from '@core/category/infra/db/sequelize/category.model';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
-import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { setupSequelize } from '@core/shared/infra/testing/helper';
 
 describe('CategoryModelMapper Integration Tests', () => {
@@ -39,7 +38,7 @@ describe('CategoryModelMapper Integration Tests', () => {
     const aggregate = CategoryModelMapper.toEntity(model);
     expect(aggregate.toJSON()).toStrictEqual(
       new Category({
-        category_id: new Uuid('5490020a-e866-4229-9adc-aa44b83234c4'),
+        category_id: new CategoryId('5490020a-e866-4229-9adc-aa44b83234c4'),
         name: 'some value',
         description: 'some description',
         is_active: true,
@@ -51,7 +50,7 @@ describe('CategoryModelMapper Integration Tests', () => {
   test('should convert a category aggregate to a category model', () => {
     const created_at = new Date();
     const aggregate = new Category({
-      category_id: new Uuid('5490020a-e866-4229-9adc-aa44b83234c4'),
+      category_id: new CategoryId('5490020a-e866-4229-9adc-aa44b83234c4'),
       name: 'some value',
       description: 'some description',
       is_active: true,
