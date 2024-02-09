@@ -25,21 +25,14 @@ export class CastMemberInMemoryRepository
 
   protected async applyFilter(
     items: CastMember[],
-    filter: CastMemberFilter | null,
+    filter: string,
   ): Promise<CastMember[]> {
     if (!filter) {
       return items;
     }
 
     return items.filter((i) => {
-      const containsName =
-        filter.name && i.name.toLowerCase().includes(filter.name.toLowerCase());
-      const hasType = filter.type && i.type.equals(filter.type);
-      return filter.name && filter.type
-        ? containsName && hasType
-        : filter.name
-          ? containsName
-          : hasType;
+      return i.name.toLowerCase().includes(filter.toLowerCase());
     });
   }
 

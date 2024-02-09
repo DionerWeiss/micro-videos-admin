@@ -114,8 +114,6 @@ describe('CastMemberSequelizeRepository Integration Tests', () => {
     });
 
     it('should apply paginate and filter', async () => {
-      jest.setTimeout(99999);
-
       const items = [
         CastMember.fake()
           .anActor()
