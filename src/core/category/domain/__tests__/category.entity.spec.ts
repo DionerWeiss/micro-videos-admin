@@ -1,4 +1,4 @@
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 
 describe('Category Without Validator Unit Tests', () => {

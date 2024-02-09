@@ -1,6 +1,6 @@
 import { CategoryOutputMapper } from '@core/category/application/use-cases/common/category-output';
 import { ListCategoriesUseCase } from '@core/category/application/use-cases/list-categories/list-categories.use-case';
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { CategorySearchResult } from '@core/category/domain/category.repository';
 import { CategoryInMemoryRepository } from '@core/category/infra/db/in-memory/category-in-memory.repository';
 

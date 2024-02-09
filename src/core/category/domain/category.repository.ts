@@ -1,4 +1,4 @@
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { ISearchableRepository } from '@core/shared/domain/repository/repository.interface';
 import { SearchParams } from '@core/shared/domain/repository/search-params';
 import { SearchResult } from '@core/shared/domain/repository/search-result';

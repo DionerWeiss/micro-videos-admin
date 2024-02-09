@@ -1,4 +1,4 @@
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { ICategoryRepository } from '@core/category/domain/category.repository';
 import { SortDirection } from '@core/shared/domain/repository/search-params';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';

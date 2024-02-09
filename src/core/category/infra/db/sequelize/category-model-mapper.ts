@@ -1,4 +1,4 @@
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { CategoryModel } from '@core/category/infra/db/sequelize/category.model';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';

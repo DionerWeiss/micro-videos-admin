@@ -1,4 +1,4 @@
-import { Category } from '@core/category/domain/category.entity';
+import { Category } from '@core/category/domain/category.aggregate';
 import { ClassValidatorFields } from '@core/shared/domain/validators/class-validator-fields';
 import { Notification } from '@core/shared/domain/validators/notification';
 import { MaxLength } from 'class-validator';
