@@ -39,6 +39,7 @@ describe('CastMembersController Unit Tests', () => {
     expect(mockCreateUseCase.execute).toHaveBeenCalledWith(input);
     expect(presenter).toBeInstanceOf(CastMemberPresenter);
     expect(presenter).toStrictEqual(new CastMemberPresenter(output));
+    //expect(expectedOutput).toStrictEqual(output);
   });
 
   it('should updates a cast member', async () => {

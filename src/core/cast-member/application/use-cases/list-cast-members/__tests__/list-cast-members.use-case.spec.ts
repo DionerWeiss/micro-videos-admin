@@ -1,5 +1,6 @@
 import { CastMemberOutputMapper } from '@core/cast-member/application/use-cases/common/cast-member-output';
 import { ListCastMembersUseCase } from '@core/cast-member/application/use-cases/list-cast-members/list-cast-members.use-case';
+import { CastMemberTypes } from '@core/cast-member/domain/cast-member-type.vo';
 import { CastMember } from '@core/cast-member/domain/cast-member.aggregate';
 import { CastMemberSearchResult } from '@core/cast-member/domain/cast-member.repository';
 import { CastMemberInMemoryRepository } from '@core/cast-member/infra/db/in-memory/cast-member-in-memory.repository';
@@ -97,7 +98,7 @@ describe('ListCastMembersUseCase Unit Tests', () => {
     let output = await useCase.execute({
       page: 1,
       per_page: 2,
-      filter: 'TEST',
+      filter: { name: 'TEST' },
     });
     expect(output).toStrictEqual({
       items: [castMembers[0], castMembers[2]].map(
@@ -112,7 +113,7 @@ describe('ListCastMembersUseCase Unit Tests', () => {
     output = await useCase.execute({
       page: 2,
       per_page: 2,
-      filter: 'TEST',
+      filter: { name: 'TEST' },
     });
     expect(output).toStrictEqual({
       items: [castMembers[3]].map(CastMemberOutputMapper.toOutput),
@@ -121,6 +122,97 @@ describe('ListCastMembersUseCase Unit Tests', () => {
       per_page: 2,
       last_page: 2,
     });
+  });
+
+  it('should search applying paginate and filter by type', async () => {
+    const created_at = new Date();
+    const castMembers = [
+      CastMember.fake()
+        .anActor()
+        .withName('actor1')
+        .withCreatedAt(created_at)
+        .build(),
+      CastMember.fake()
+        .anActor()
+        .withName('actor2')
+        .withCreatedAt(created_at)
+        .build(),
+      CastMember.fake()
+        .anActor()
+        .withName('actor3')
+        .withCreatedAt(created_at)
+        .build(),
+      CastMember.fake()
+        .aDirector()
+        .withName('director1')
+        .withCreatedAt(created_at)
+        .build(),
+      CastMember.fake()
+        .aDirector()
+        .withName('director2')
+        .withCreatedAt(created_at)
+        .build(),
+      CastMember.fake()
+        .aDirector()
+        .withName('director3')
+        .withCreatedAt(created_at)
+        .build(),
+    ];
+    await repository.bulkInsert(castMembers);
+
+    const arrange = [
+      {
+        input: {
+          page: 1,
+          per_page: 2,
+          filter: { type: CastMemberTypes.ACTOR },
+        },
+        output: {
+          items: [castMembers[0], castMembers[1]].map(
+            CastMemberOutputMapper.toOutput,
+          ),
+          total: 3,
+          current_page: 1,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+      {
+        input: {
+          page: 2,
+          per_page: 2,
+          filter: { type: CastMemberTypes.ACTOR },
+        },
+        output: {
+          items: [castMembers[2]].map(CastMemberOutputMapper.toOutput),
+          total: 3,
+          current_page: 2,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+      {
+        input: {
+          page: 1,
+          per_page: 2,
+          filter: { type: CastMemberTypes.DIRECTOR },
+        },
+        output: {
+          items: [castMembers[3], castMembers[4]].map(
+            CastMemberOutputMapper.toOutput,
+          ),
+          total: 3,
+          current_page: 1,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+    ];
+
+    for (const item of arrange) {
+      const output = await useCase.execute(item.input);
+      expect(output).toStrictEqual(item.output);
+    }
   });
 
   it('should search applying paginate and sort', async () => {
@@ -225,7 +317,7 @@ describe('ListCastMembersUseCase Unit Tests', () => {
           page: 1,
           per_page: 2,
           sort: 'name',
-          filter: 'TEST',
+          filter: { name: 'TEST' },
         },
         output: {
           items: [castMembers[2], castMembers[4]].map(
@@ -242,7 +334,7 @@ describe('ListCastMembersUseCase Unit Tests', () => {
           page: 2,
           per_page: 2,
           sort: 'name',
-          filter: 'TEST',
+          filter: { name: 'TEST' },
         },
         output: {
           items: [castMembers[0]].map(CastMemberOutputMapper.toOutput),
@@ -265,5 +357,169 @@ describe('ListCastMembersUseCase Unit Tests', () => {
         expect(output).toStrictEqual(expectedOutput);
       },
     );
+  });
+
+  describe('should search applying filter by type, sort and paginate', () => {
+    const castMembers = [
+      CastMember.fake().anActor().withName('test').build(),
+      CastMember.fake().aDirector().withName('a').build(),
+      CastMember.fake().anActor().withName('TEST').build(),
+      CastMember.fake().aDirector().withName('e').build(),
+      CastMember.fake().anActor().withName('TeSt').build(),
+      CastMember.fake().aDirector().withName('b').build(),
+    ];
+
+    const arrange = [
+      {
+        input: {
+          page: 1,
+          per_page: 2,
+          sort: 'name',
+          filter: { type: CastMemberTypes.ACTOR },
+        },
+        output: {
+          items: [castMembers[2], castMembers[4]].map(
+            CastMemberOutputMapper.toOutput,
+          ),
+          total: 3,
+          current_page: 1,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+      {
+        input: {
+          page: 2,
+          per_page: 2,
+          sort: 'name',
+          filter: { type: CastMemberTypes.ACTOR },
+        },
+        output: {
+          items: [castMembers[0]].map(CastMemberOutputMapper.toOutput),
+          total: 3,
+          current_page: 2,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+      {
+        input: {
+          page: 1,
+          per_page: 2,
+          sort: 'name',
+          filter: { type: CastMemberTypes.DIRECTOR },
+        },
+        output: {
+          items: [castMembers[1], castMembers[5]].map(
+            CastMemberOutputMapper.toOutput,
+          ),
+          total: 3,
+          current_page: 1,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+      {
+        input: {
+          page: 2,
+          per_page: 2,
+          sort: 'name',
+          filter: { type: CastMemberTypes.DIRECTOR },
+        },
+        output: {
+          items: [castMembers[3]].map(CastMemberOutputMapper.toOutput),
+          total: 3,
+          current_page: 2,
+          per_page: 2,
+          last_page: 2,
+        },
+      },
+    ];
+
+    beforeEach(async () => {
+      await repository.bulkInsert(castMembers);
+    });
+
+    test.each(arrange)(
+      'when value is $search_params',
+      async ({ input, output: expectedOutput }) => {
+        const output = await useCase.execute(input);
+        expect(output).toStrictEqual(expectedOutput);
+      },
+    );
+  });
+
+  it('should search using filter by name and type, sort and paginate', async () => {
+    const castMembers = [
+      CastMember.fake().anActor().withName('test').build(),
+      CastMember.fake().aDirector().withName('a director').build(),
+      CastMember.fake().anActor().withName('TEST').build(),
+      CastMember.fake().aDirector().withName('e director').build(),
+      CastMember.fake().anActor().withName('TeSt').build(),
+      CastMember.fake().aDirector().withName('b director').build(),
+    ];
+    repository.items = castMembers;
+
+    let output = await useCase.execute({
+      page: 1,
+      per_page: 2,
+      sort: 'name',
+      filter: { name: 'TEST', type: CastMemberTypes.ACTOR },
+    });
+    expect(output).toStrictEqual({
+      items: [castMembers[2], castMembers[4]].map(
+        CastMemberOutputMapper.toOutput,
+      ),
+      total: 3,
+      current_page: 1,
+      per_page: 2,
+      last_page: 2,
+    });
+
+    output = await useCase.execute({
+      page: 2,
+      per_page: 2,
+      sort: 'name',
+      filter: { name: 'TEST', type: CastMemberTypes.ACTOR },
+    });
+    expect(output).toStrictEqual({
+      items: [castMembers[0]].map(CastMemberOutputMapper.toOutput),
+      total: 3,
+      current_page: 2,
+      per_page: 2,
+      last_page: 2,
+    });
+
+    output = await useCase.execute({
+      page: 1,
+      per_page: 2,
+      sort: 'name',
+      sort_dir: 'asc',
+      filter: { name: 'director', type: CastMemberTypes.DIRECTOR },
+    });
+    expect(output).toStrictEqual({
+      items: [castMembers[1], castMembers[5]].map(
+        CastMemberOutputMapper.toOutput,
+      ),
+      total: 3,
+      current_page: 1,
+      per_page: 2,
+      last_page: 2,
+    });
+
+    output = await useCase.execute({
+      page: 2,
+      per_page: 2,
+      sort: 'name',
+      sort_dir: 'asc',
+      filter: { name: 'director', type: CastMemberTypes.DIRECTOR },
+    });
+    expect(output).toStrictEqual({
+      items: [castMembers[3]].map(CastMemberOutputMapper.toOutput),
+      total: 3,
+      current_page: 2,
+      per_page: 2,
+      last_page: 2,
+    });
   });
 });

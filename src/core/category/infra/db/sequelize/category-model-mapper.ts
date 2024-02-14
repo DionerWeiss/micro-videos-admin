@@ -1,6 +1,6 @@
 import { Category, CategoryId } from '@core/category/domain/category.aggregate';
 import { CategoryModel } from '@core/category/infra/db/sequelize/category.model';
-import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
+import { LoadEntityError } from '@core/shared/domain/validators/validation.error';
 
 export class CategoryModelMapper {
   static toModel(entity: Category): CategoryModel {
@@ -24,7 +24,7 @@ export class CategoryModelMapper {
 
     category.validate();
     if (category.notification.hasErrors()) {
-      throw new EntityValidationError(category.notification.toJSON());
+      throw new LoadEntityError(category.notification.toJSON());
     }
     return category;
   }

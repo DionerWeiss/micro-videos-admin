@@ -1,13 +1,13 @@
+import { SortDirection } from '../../../../shared/domain/repository/search-params';
+import { InMemorySearchableRepository } from '../../../../shared/infra/db/in-memory/in-memory.repository';
 import {
   CastMember,
   CastMemberId,
-} from '@core/cast-member/domain/cast-member.aggregate';
+} from '../../../domain/cast-member.aggregate';
 import {
   CastMemberFilter,
   ICastMemberRepository,
-} from '@core/cast-member/domain/cast-member.repository';
-import { SortDirection } from '@core/shared/domain/repository/search-params';
-import { InMemorySearchableRepository } from '@core/shared/infra/db/in-memory/in-memory.repository';
+} from '../../../domain/cast-member.repository';
 
 export class CastMemberInMemoryRepository
   extends InMemorySearchableRepository<
@@ -25,14 +25,21 @@ export class CastMemberInMemoryRepository
 
   protected async applyFilter(
     items: CastMember[],
-    filter: string,
+    filter: CastMemberFilter,
   ): Promise<CastMember[]> {
     if (!filter) {
       return items;
     }
 
     return items.filter((i) => {
-      return i.name.toLowerCase().includes(filter.toLowerCase());
+      const containsName =
+        filter.name && i.name.toLowerCase().includes(filter.name.toLowerCase());
+      const hasType = filter.type && i.type.equals(filter.type);
+      return filter.name && filter.type
+        ? containsName && hasType
+        : filter.name
+          ? containsName
+          : hasType;
     });
   }
 

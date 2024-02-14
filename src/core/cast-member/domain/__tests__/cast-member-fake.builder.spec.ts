@@ -11,7 +11,7 @@ describe('CastMemberFakerBuilder Unit Tests', () => {
     const faker = CastMemberFakeBuilder.anActor();
 
     test('should throw error when any with methods has called', () => {
-      expect(() => faker.cast_member_id).toThrow(
+      expect(() => faker.cast_member_id).toThrowError(
         new Error(
           "Property cast_member_id not have a factory, use 'with' methods",
         ),

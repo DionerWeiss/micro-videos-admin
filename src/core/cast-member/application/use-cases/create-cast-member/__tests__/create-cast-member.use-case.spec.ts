@@ -1,6 +1,8 @@
+import { CreateCastMemberInput } from '@core/cast-member/application/use-cases/create-cast-member/create-cast-member.input';
 import { CreateCastMemberUseCase } from '@core/cast-member/application/use-cases/create-cast-member/create-cast-member.use-case';
 import { CastMemberTypes } from '@core/cast-member/domain/cast-member-type.vo';
 import { CastMemberInMemoryRepository } from '@core/cast-member/infra/db/in-memory/cast-member-in-memory.repository';
+import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 
 describe('CreateCastMemberUseCase Unit Tests', () => {
   let useCase: CreateCastMemberUseCase;
@@ -13,15 +15,34 @@ describe('CreateCastMemberUseCase Unit Tests', () => {
   });
 
   describe('execute method', () => {
-    it('should throw an error', async () => {
-      const insertError = new Error('insert error');
-      jest.spyOn(repository, 'insert').mockRejectedValue(insertError);
+    it('should throw an generic error', async () => {
+      const expectedError = new Error('generic error');
+      jest.spyOn(repository, 'insert').mockRejectedValue(expectedError);
       await expect(
         useCase.execute({
           name: 'test',
           type: CastMemberTypes.ACTOR,
         }),
-      ).rejects.toThrow(insertError);
+      ).rejects.toThrowError(expectedError);
+    });
+
+    it('should throw an entity validation error', async () => {
+      try {
+        await useCase.execute(
+          new CreateCastMemberInput({
+            name: 'cast',
+            type: 'a' as any,
+          }),
+        );
+      } catch (e) {
+        expect(e).toBeInstanceOf(EntityValidationError);
+        expect(e.error).toStrictEqual([
+          {
+            type: ['Invalid cast member type: a'],
+          },
+        ]);
+      }
+      expect.assertions(2);
     });
 
     it('should create a cast member', async () => {
