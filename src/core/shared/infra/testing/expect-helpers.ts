@@ -6,6 +6,7 @@
 //   | (() => any);
 
 import { Notification } from '@core/shared/domain/validators/notification';
+import { ValueObject } from '@core/shared/domain/value-object';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 expect.extend({
@@ -36,6 +37,17 @@ expect.extend({
             `The validation errors not contains ${JSON.stringify(
               received,
             )}. Current: ${JSON.stringify(expected.toJSON())}`,
+        };
+  },
+  toBeValueObject(expected: ValueObject, received: ValueObject) {
+    return expected.equals(received)
+      ? { pass: true, message: () => '' }
+      : {
+          pass: false,
+          message: () =>
+            `The values object are not equal. Expected: ${JSON.stringify(
+              expected,
+            )} | Received: ${JSON.stringify(received)}`,
         };
   },
   // containsErrorMessages(expected: Expected, received: FieldsErrors) {
