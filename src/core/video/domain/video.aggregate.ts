@@ -2,6 +2,7 @@ import { CastMemberId } from '@core/cast-member/domain/cast-member.aggregate';
 import { CategoryId } from '@core/category/domain/category.aggregate';
 import { GenreId } from '@core/genre/domain/genre.aggregate';
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
+import { AudioVideoMediaStatus } from '@core/shared/domain/value-objects/audio-video-media.vo';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { Banner } from '@core/video/domain/banner.vo';
 import { Rating } from '@core/video/domain/rating.vo';
@@ -107,7 +108,7 @@ export class Video extends AggregateRoot {
     });
 
     video.validate(['title']);
-
+    video.tryMarkAsPublished();
     return video;
   }
 
@@ -138,6 +139,28 @@ export class Video extends AggregateRoot {
 
   markAsNotOpened(): void {
     this.is_opened = false;
+  }
+
+  replaceBanner(banner: Banner): void {
+    this.banner = banner;
+  }
+
+  replaceThumbnail(thumbnail: Thumbnail): void {
+    this.thumbnail = thumbnail;
+  }
+
+  replaceThumbnailHalf(thumbnailHalf: ThumbnailHalf): void {
+    this.thumbnail_half = thumbnailHalf;
+  }
+
+  replaceTrailer(trailer: Trailer): void {
+    this.trailer = trailer;
+    this.tryMarkAsPublished();
+  }
+
+  replaceVideo(video: VideoMedia): void {
+    this.video = video;
+    this.tryMarkAsPublished();
   }
 
   addCategoryId(categoryId: CategoryId): void {
@@ -184,6 +207,17 @@ export class Video extends AggregateRoot {
       throw new Error('Cast Members id is empty');
     }
     this.cast_members_id = new Map(castMembersId.map((id) => [id.id, id]));
+  }
+
+  private tryMarkAsPublished() {
+    if (
+      this.trailer &&
+      this.video &&
+      this.trailer.status === AudioVideoMediaStatus.COMPLETED &&
+      this.video.status === AudioVideoMediaStatus.COMPLETED
+    ) {
+      this.is_published = true;
+    }
   }
 
   validate(fields?: string[]) {
