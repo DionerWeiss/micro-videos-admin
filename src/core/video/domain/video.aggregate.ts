@@ -3,6 +3,7 @@ import { CategoryId } from '@core/category/domain/category.aggregate';
 import { GenreId } from '@core/genre/domain/genre.aggregate';
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { Banner } from '@core/video/domain/banner.vo';
 import { Rating } from '@core/video/domain/rating.vo';
 
 export type VideoConstructorProps = {
@@ -14,6 +15,7 @@ export type VideoConstructorProps = {
   rating: Rating;
   is_opened: boolean;
   is_published: boolean;
+  banner?: Banner;
 
   categories_id: Map<string, CategoryId>;
   genres_id: Map<string, GenreId>;
@@ -28,6 +30,7 @@ export type VideoCreateCommand = {
   duration: number;
   rating: Rating;
   is_opened: boolean;
+  banner?: Banner;
 
   categories_id: CategoryId[];
   genres_id: GenreId[];
@@ -46,6 +49,8 @@ export class Video extends AggregateRoot {
   is_opened: boolean;
   is_published: boolean;
 
+  banner: Banner | null;
+
   categories_id: Map<string, CategoryId>;
   genres_id: Map<string, GenreId>;
   cast_members_id: Map<string, CastMemberId>;
@@ -61,6 +66,8 @@ export class Video extends AggregateRoot {
     this.rating = props.rating;
     this.is_opened = props.is_opened;
     this.is_published = props.is_published;
+
+    this.banner = props.banner ?? null;
 
     this.categories_id = props.categories_id;
     this.genres_id = props.genres_id;
