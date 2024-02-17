@@ -3,6 +3,7 @@ import { CategoryId } from '@core/category/domain/category.aggregate';
 import { GenreId } from '@core/genre/domain/genre.aggregate';
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
+import { Rating } from '@core/video/domain/rating.vo';
 
 export type VideoConstructorProps = {
   video_id?: VideoId;
@@ -10,7 +11,7 @@ export type VideoConstructorProps = {
   description: string;
   year_launched: number;
   duration: number;
-
+  rating: Rating;
   is_opened: boolean;
   is_published: boolean;
 
@@ -25,7 +26,7 @@ export type VideoCreateCommand = {
   description: string;
   year_launched: number;
   duration: number;
-
+  rating: Rating;
   is_opened: boolean;
 
   categories_id: CategoryId[];
@@ -41,7 +42,7 @@ export class Video extends AggregateRoot {
   description: string;
   year_launched: number;
   duration: number;
-
+  rating: Rating;
   is_opened: boolean;
   is_published: boolean;
 
@@ -57,7 +58,7 @@ export class Video extends AggregateRoot {
     this.description = props.description;
     this.year_launched = props.year_launched;
     this.duration = props.duration;
-
+    this.rating = props.rating;
     this.is_opened = props.is_opened;
     this.is_published = props.is_published;
 
@@ -96,6 +97,10 @@ export class Video extends AggregateRoot {
 
   changeDuration(duration: number): void {
     this.duration = duration;
+  }
+
+  changeRating(rating: Rating): void {
+    this.rating = rating;
   }
 
   markAsOpened(): void {
