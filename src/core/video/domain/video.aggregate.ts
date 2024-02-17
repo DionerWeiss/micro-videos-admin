@@ -5,6 +5,8 @@ import { AggregateRoot } from '@core/shared/domain/aggregate-root';
 import { AudioVideoMediaStatus } from '@core/shared/domain/value-objects/audio-video-media.vo';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import { Banner } from '@core/video/domain/banner.vo';
+import { VideoAudioMediaReplaced } from '@core/video/domain/domain-events/video-audio-media-replaced.event';
+import { VideoCreatedEvent } from '@core/video/domain/domain-events/video-created.event';
 import { Rating } from '@core/video/domain/rating.vo';
 import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';
 import { Thumbnail } from '@core/video/domain/thumbnail.vo';
@@ -43,8 +45,8 @@ export type VideoCreateCommand = {
   rating: Rating;
   is_opened: boolean;
   banner?: Banner;
-  thumbnail: Thumbnail;
-  thumbnail_half: ThumbnailHalf;
+  thumbnail?: Thumbnail;
+  thumbnail_half?: ThumbnailHalf;
   trailer?: Trailer;
   video?: VideoMedia;
   categories_id: CategoryId[];
@@ -96,6 +98,15 @@ export class Video extends AggregateRoot {
     this.genres_id = props.genres_id;
     this.cast_members_id = props.cast_members_id;
     this.created_at = props.created_at ?? new Date();
+
+    this.registerHandler(
+      VideoCreatedEvent.name,
+      this.onVideoCreated.bind(this),
+    );
+    this.registerHandler(
+      VideoAudioMediaReplaced.name,
+      this.onAudioVideoMediaReplaced.bind(this),
+    );
   }
 
   static create(props: VideoCreateCommand) {
@@ -108,7 +119,27 @@ export class Video extends AggregateRoot {
     });
 
     video.validate(['title']);
-    video.tryMarkAsPublished();
+    video.applyEvent(
+      new VideoCreatedEvent({
+        video_id: video.video_id,
+        title: video.title,
+        description: video.description,
+        year_launched: video.year_launched,
+        duration: video.duration,
+        rating: video.rating,
+        is_opened: video.is_opened,
+        is_published: video.is_published,
+        banner: video.banner,
+        thumbnail: video.thumbnail,
+        thumbnail_half: video.thumbnail_half,
+        trailer: video.trailer!,
+        video: video.video!,
+        categories_id: Array.from(video.categories_id.values()),
+        genres_id: Array.from(video.genres_id.values()),
+        cast_members_id: Array.from(video.cast_members_id.values()),
+        created_at: video.created_at!,
+      }),
+    );
     return video;
   }
 
@@ -155,12 +186,24 @@ export class Video extends AggregateRoot {
 
   replaceTrailer(trailer: Trailer): void {
     this.trailer = trailer;
-    this.tryMarkAsPublished();
+    this.applyEvent(
+      new VideoAudioMediaReplaced({
+        aggregate_id: this.video_id,
+        media: trailer,
+        media_type: 'trailer',
+      }),
+    );
   }
 
   replaceVideo(video: VideoMedia): void {
     this.video = video;
-    this.tryMarkAsPublished();
+    this.applyEvent(
+      new VideoAudioMediaReplaced({
+        aggregate_id: this.video_id,
+        media: video,
+        media_type: 'video',
+      }),
+    );
   }
 
   addCategoryId(categoryId: CategoryId): void {
@@ -207,6 +250,24 @@ export class Video extends AggregateRoot {
       throw new Error('Cast Members id is empty');
     }
     this.cast_members_id = new Map(castMembersId.map((id) => [id.id, id]));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onVideoCreated(_event: VideoCreatedEvent) {
+    if (this.is_published) {
+      return;
+    }
+
+    this.tryMarkAsPublished();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onAudioVideoMediaReplaced(_event: VideoAudioMediaReplaced) {
+    if (this.is_published) {
+      return;
+    }
+
+    this.tryMarkAsPublished();
   }
 
   private tryMarkAsPublished() {
