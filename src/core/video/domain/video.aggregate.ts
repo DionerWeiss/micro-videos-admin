@@ -8,7 +8,9 @@ import { Rating } from '@core/video/domain/rating.vo';
 import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';
 import { Thumbnail } from '@core/video/domain/thumbnail.vo';
 import { Trailer } from '@core/video/domain/trailer.vo';
+import { VideoFakeBuilder } from '@core/video/domain/video-fake.builder';
 import { VideoMedia } from '@core/video/domain/video-media.vo';
+import VideoValidatorFactory from '@core/video/domain/video.validator';
 
 export type VideoConstructorProps = {
   video_id?: VideoId;
@@ -104,14 +106,14 @@ export class Video extends AggregateRoot {
       is_published: false,
     });
 
-    // video.validate();
+    video.validate(['title']);
 
     return video;
   }
 
   changeTitle(title: string): void {
     this.title = title;
-    // this.validate();
+    this.validate(['title']);
   }
 
   changeDescription(description: string): void {
@@ -182,6 +184,15 @@ export class Video extends AggregateRoot {
       throw new Error('Cast Members id is empty');
     }
     this.cast_members_id = new Map(castMembersId.map((id) => [id.id, id]));
+  }
+
+  validate(fields?: string[]) {
+    const validator = VideoValidatorFactory.create();
+    return validator.validate(this.notification, this, fields);
+  }
+
+  static fake() {
+    return VideoFakeBuilder;
   }
 
   get entity_id() {
