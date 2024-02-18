@@ -33,7 +33,7 @@ export class Banner extends ImageMedia {
 
       return new Banner({
         name: newName,
-        location: `videos/${video_id.id}/imagens`,
+        location: `videos/${video_id.id}/images`,
       });
     });
   }
