@@ -22,7 +22,7 @@ export class Config {
   static googleCredentials() {
     Config.readEnv();
 
-    return JSON.parse(Config.env.GOOGLE_CLOUD_BUCKET_NAME);
+    return JSON.parse(Config.env.GOOGLE_CLOUD_CREDENTIALS);
   }
 
   static readEnv() {
