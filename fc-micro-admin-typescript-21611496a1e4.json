@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fc-micro-admin-typescript",
+  "private_key_id": "21611496a1e4cb70dbff1c7e185b169143d7a909",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDehdmxAo/Risd\nUQTxHs1MIwaTkJ2+HT7PQNfmH09vb7vBWRroA0S+m9RIZJyIFJ19eS1Oi0hf4yyF\n2yzMc35keDeg+Vb1lgmP06mKX5eRV4Z7DwYc4k1pJNtms4GYdHcg5114pdpVi2Q/\nC2aOeXoOKdzQbMRBtvZ+ImF8eGU5HWn3V4wDUimVC0fLqIlUAZwwRKsCDJeXtEI5\nAOvHeSsY02cQr4YQhpy/W/BVDrlnglJBHOyiZgvOmUBQ38AkcrOz93zoTkNIZa7T\nZ8CPuL0X8KfTb3s/3M2F3vxIbjDOF0GrYqFcIfh0N9q761X5/6kSiUfgifdKheKA\n3bGC3k0NAgMBAAECggEAU2k8pRhP+xH5Ach5oF3xYmSrwLn75YzbKVrVBZgksDtw\nVZ+tEIWchu09lyp/dL2/OjRD9fkPCAOLEw8kPZWmwD5gFmtvBNph+CJsfOQva9B6\nTPZrOFYEjDIzAM7mJOTFlJ/FTd8PnGMfgptdxrvlLjgExlczI4tsAQSwrok9QDIi\n8szuQWgiC7sHZBNi2CLGQ9RFHZw/Cxw7jiPDY5vzGMXqqLmRCs1ljm8i+lwbGF7Z\nhu4KxrrKTFa7iSl2Q6fmv9Ej81peHEb7kSXp+vDWqz4h++W0Gyo/eNj0tbJME7u/\n9xmS9VdtWNPimoPlA9PpAPGEMAKWtTCzFrXgkh657QKBgQDl5Ms8za9UQLRgdwAO\nZlIru9FsmheX81W+Hdn1iQwjTPGNbRPxdTh5Sq57rdMCph67mfTaU8fvEMYciBiy\n11wRcXsRb9AqQQZ2tS7gmaX/IH4GGUCRGYkByxC5sFJzYFIS1aTJ3ueVfgj1e7ay\nSlbRlXzCD/HNhakyY/GF8gO/QwKBgQDZrMWM/SHV/7wYGpXVZ5/DcTa7/rmb0gA4\nfPaFirb48Qe+uDZFoQ8sBD9MV6LHKittg/sB8PkdavEC69taL+AiczAaP8wNMg6+\nxHgQ2LU3VWQaD25TkmP+O60PwR6beadz2b8IAfrui0lK5YAQ4+5oJWRIpm6F2E+s\nLEGdJKy1bwKBgQDloldcgfwrRYKnhNaai5xysOYs+/KrRlYUVI8d0uo77KSv5w/v\ntW5WwcFuKyBGWhcCv3M0DlH8u52YbF13buU5S0hqD204d8F0G+EaWn/USul3QAwd\npAsVrngjczu4obL5u0wilTRwP/fE9fF1QApeyVpYIkMfTu7GNczQRgF2LwKBgQDS\nGvwMHIE+aDwMIA0kEYOaSHsGdtZ9WvQvkh75w2zdWPma04A/MTjNycO3UpeiGkgU\ny2HK++fYx1Ke+T2fDbsQRZLWo2G4Eus8o7Mov6QbJucaaG6baB/wU3W2UTfT5lcF\ncdX8Sr0E55j1HBTDON7z07O6lDr2Ila033rtzWqPLQKBgEHZGNCAwTwsrBeKDZ63\nFGuYK/VzM71LyDuafkBfwDU/qMpTwrgChwDkjCAFN1qdi19A38FEkiUcnDi9sCha\n18n9On9qjcZhzsDQiYqkJsmVszTQjlcuIiBkKFYxWv3w7MnkizcqqfaovGWKb4CS\ngnonU2dNlgD+gncFgT7l8PKy\n-----END PRIVATE KEY-----\n",
+  "client_email": "micro-admin-typescript-account@fc-micro-admin-typescript.iam.gserviceaccount.com",
+  "client_id": "112165946207347990432",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/micro-admin-typescript-account%40fc-micro-admin-typescript.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
