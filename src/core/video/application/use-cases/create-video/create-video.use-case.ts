@@ -4,7 +4,7 @@ import { GenresIdExistsInDatabaseValidator } from '@core/genre/application/valid
 import { IUseCase } from '@core/shared/application/use-case.interface';
 import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
-import { CreateVideoInput } from '@core/video/application/create-video/create-video.input';
+import { CreateVideoInput } from '@core/video/application/use-cases/create-video/create-video.input';
 import { Rating } from '@core/video/domain/rating.vo';
 import { Video } from '@core/video/domain/video.aggregate';
 import { IVideoRepository } from '@core/video/domain/video.repository';

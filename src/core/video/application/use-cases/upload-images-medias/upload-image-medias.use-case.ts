@@ -3,7 +3,7 @@ import { IUseCase } from '@core/shared/application/use-case.interface';
 import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
-import { UploadImageMediasInput } from '@core/video/application/upload-images-medias/upload-image-medias.input';
+import { UploadImageMediasInput } from '@core/video/application/use-cases/upload-images-medias/upload-image-medias.input';
 import { Banner } from '@core/video/domain/banner.vo';
 import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';
 import { Thumbnail } from '@core/video/domain/thumbnail.vo';

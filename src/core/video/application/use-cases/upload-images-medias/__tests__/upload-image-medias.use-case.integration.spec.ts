@@ -15,7 +15,7 @@ import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
 import { UnitOfWorkSequelize } from '@core/shared/infra/db/sequelize/unit-of-work.sequelize';
 import { InMemoryStorage } from '@core/shared/infra/storage/in-memory.storage';
-import { UploadImageMediasUseCase } from '@core/video/application/upload-images-medias/upload-image-medias.use-case';
+import { UploadImageMediasUseCase } from '@core/video/application/use-cases/upload-images-medias/upload-image-medias.use-case';
 import { Video } from '@core/video/domain/video.aggregate';
 import { IVideoRepository } from '@core/video/domain/video.repository';
 import { setupSequelizeForVideo } from '@core/video/infra/db/sequelize/testing/helpers';

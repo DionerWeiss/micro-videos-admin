@@ -6,7 +6,7 @@ import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import {
   VideoOutput,
   VideoOutputMapper,
-} from '@core/video/application/common/video-output';
+} from '@core/video/application/use-cases/common/video-output';
 import { Video, VideoId } from '@core/video/domain/video.aggregate';
 import { IVideoRepository } from '@core/video/domain/video.repository';
 

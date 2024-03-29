@@ -5,7 +5,7 @@ import { IUseCase } from '@core/shared/application/use-case.interface';
 import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import { IUnitOfWork } from '@core/shared/domain/repository/unit-of-work.interface';
 import { EntityValidationError } from '@core/shared/domain/validators/validation.error';
-import { UpdateVideoInput } from '@core/video/application/update-video/update-video.input';
+import { UpdateVideoInput } from '@core/video/application/use-cases/update-video/update-video.input';
 import { Rating } from '@core/video/domain/rating.vo';
 import { Video, VideoId } from '@core/video/domain/video.aggregate';
 import { IVideoRepository } from '@core/video/domain/video.repository';

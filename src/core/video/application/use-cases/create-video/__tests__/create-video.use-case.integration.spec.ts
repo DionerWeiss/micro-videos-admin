@@ -11,7 +11,7 @@ import { Genre } from '@core/genre/domain/genre.aggregate';
 import { GenreModel } from '@core/genre/infra/db/sequelize/genre-model';
 import { GenreSequelizeRepository } from '@core/genre/infra/db/sequelize/genre-sequelize.repository';
 import { UnitOfWorkSequelize } from '@core/shared/infra/db/sequelize/unit-of-work.sequelize';
-import { CreateVideoUseCase } from '@core/video/application/create-video/create-video.use-case';
+import { CreateVideoUseCase } from '@core/video/application/use-cases/create-video/create-video.use-case';
 import { RatingValues } from '@core/video/domain/rating.vo';
 import { Video, VideoId } from '@core/video/domain/video.aggregate';
 import { setupSequelizeForVideo } from '@core/video/infra/db/sequelize/testing/helpers';
