@@ -18,7 +18,7 @@ import { SearchValidationError } from '@core/shared/domain/validators/validation
 
 export type CastMemberFilter = {
   name?: string;
-  type?: CastMemberType;
+  type?: CastMemberType | null;
 };
 
 export class CastMemberSearchParams extends DefaultSearchParams<CastMemberFilter> {
@@ -32,7 +32,7 @@ export class CastMemberSearchParams extends DefaultSearchParams<CastMemberFilter
     props: Omit<SearchParamsConstructorProps<CastMemberFilter>, 'filter'> & {
       filter?: {
         name?: string;
-        type?: CastMemberTypes;
+        type?: CastMemberTypes | null;
       };
     } = {},
   ) {
@@ -70,8 +70,8 @@ export class CastMemberSearchParams extends DefaultSearchParams<CastMemberFilter
         : value;
 
     const filter = {
-      ...(_value.name && { name: `${_value?.name}` }),
-      ...(_value.type && { type: _value.type }),
+      ...(_value?.name && { name: `${_value?.name}` }),
+      ...(_value?.type && { type: _value.type }),
     };
 
     this._filter = Object.keys(filter).length === 0 ? null : filter;

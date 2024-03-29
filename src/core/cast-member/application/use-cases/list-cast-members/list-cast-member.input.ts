@@ -4,7 +4,7 @@ import { SortDirection } from '@core/shared/domain/repository/search-params';
 import { IsInt, ValidateNested, validateSync } from 'class-validator';
 
 export class ListCastMembersFilter {
-  name?: string | null;
+  name?: string;
   @IsInt()
   type?: CastMemberTypes | null;
 }

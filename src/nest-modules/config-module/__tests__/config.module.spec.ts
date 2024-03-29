@@ -4,7 +4,7 @@ import { join } from 'path';
 import { CONFIG_DB_SCHEMA, ConfigModule } from '../config.module';
 
 function expectValidate(schema: Joi.Schema, value: any) {
-  return expect(schema.validate(value, { abortEarly: false }).error.message);
+  return expect(schema.validate(value, { abortEarly: false }).error?.message);
 }
 
 describe('Schema Unit Tests', () => {

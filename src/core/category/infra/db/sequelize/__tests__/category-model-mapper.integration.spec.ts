@@ -8,6 +8,7 @@ describe('CategoryModelMapper Integration Tests', () => {
   setupSequelize({ models: [CategoryModel] });
 
   it('should throws error when category is invalid', () => {
+    //@ts-expect-error - This is an invalid cast member
     const model = CategoryModel.build({
       category_id: '9366b7dc-2d71-4799-b91c-c64adb205104',
     });
