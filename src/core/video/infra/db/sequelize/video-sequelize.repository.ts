@@ -3,14 +3,14 @@ import { NotFoundError } from '@core/shared/domain/errors/not-found.error';
 import { SortDirection } from '@core/shared/domain/repository/search-params';
 import { UnitOfWorkSequelize } from '@core/shared/infra/db/sequelize/unit-of-work.sequelize';
 import { Video, VideoId } from '@core/video/domain/video.aggregate';
+import { literal, Op } from 'sequelize';
 import {
   IVideoRepository,
   VideoSearchParams,
   VideoSearchResult,
-} from '@core/video/domain/video.repository';
-import { VideoModelMapper } from '@core/video/infra/db/sequelize/video-model.mapper';
-import { VideoModel } from '@core/video/infra/db/sequelize/video.model';
-import { Op, literal } from 'sequelize';
+} from '../../../domain/video.repository';
+import { VideoModelMapper } from './video-model.mapper';
+import { VideoModel } from './video.model';
 
 export class VideoSequelizeRepository implements IVideoRepository {
   sortableFields: string[] = ['name', 'created_at'];
@@ -38,6 +38,7 @@ export class VideoSequelizeRepository implements IVideoRepository {
       include: this.relations_include,
       transaction: this.uow.getTransaction(),
     });
+    this.uow.addAggregateRoot(entity);
   }
 
   async bulkInsert(entities: Video[]): Promise<void> {
@@ -46,6 +47,7 @@ export class VideoSequelizeRepository implements IVideoRepository {
       include: this.relations_include,
       transaction: this.uow.getTransaction(),
     });
+    entities.forEach((e) => this.uow.addAggregateRoot(e));
   }
 
   async findById(id: VideoId): Promise<Video | null> {
@@ -189,9 +191,14 @@ export class VideoSequelizeRepository implements IVideoRepository {
         },
       ),
     ]);
+
+    this.uow.addAggregateRoot(entity);
   }
 
+  //TODO - implementar mudança de VideoID para o agregado video
+  //async delete(video: Video)
   async delete(id: VideoId): Promise<void> {
+    //consultar o agregado
     const videoCategoryRelation =
       this.videoModel.associations.categories_id.target;
     const videoGenreRelation = this.videoModel.associations.genres_id.target;
@@ -231,6 +238,8 @@ export class VideoSequelizeRepository implements IVideoRepository {
     if (affectedRows !== 1) {
       throw new NotFoundError(id.id, this.getEntity());
     }
+
+    //this.uow.addAggregateRoot(video);
   }
 
   private async _get(id: string): Promise<VideoModel | null> {
