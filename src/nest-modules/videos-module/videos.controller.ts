@@ -1,5 +1,6 @@
 import { CreateVideoUseCase } from '@core/video/application/use-cases/create-video/create-video.use-case';
 import { GetVideoUseCase } from '@core/video/application/use-cases/get-video/get-video.use-case';
+import { UpdateVideoInput } from '@core/video/application/use-cases/update-video/update-video.input';
 import { UpdateVideoUseCase } from '@core/video/application/use-cases/update-video/update-video.use-case';
 import { UploadAudioVideoMediasUseCase } from '@core/video/application/use-cases/upload-audio-video-medias/upload-audio-video-medias.use-case';
 import {
@@ -12,8 +13,10 @@ import {
   Patch,
   Post,
   UploadedFiles,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateVideoDto } from 'src/nest-modules/videos-module/dto/create-video.dto';
+import { UpdateVideoDto } from 'src/nest-modules/videos-module/dto/update-video.dto';
 
 @Controller('videos')
 export class VideosController {
@@ -46,7 +49,21 @@ export class VideosController {
   async update(
     @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
     @Body() updateVideoDto: any,
-  ) {}
+  ) {
+    const hasData = Object.keys(updateVideoDto).length > 0;
+
+    if (hasData) {
+      const data = await new ValidationPipe({
+        errorHttpStatusCode: 422,
+      }).transform(updateVideoDto, {
+        metatype: UpdateVideoDto,
+        type: 'body',
+      });
+      const input = new UpdateVideoInput({ id, ...data });
+      const { id: newId } = await this.updateUseCase.execute(input);
+      return await this.getUseCase.execute({ id: newId });
+    }
+  }
 
   @Patch(':id/upload')
   uploadFile(
