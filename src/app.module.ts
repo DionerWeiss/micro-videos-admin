@@ -5,6 +5,7 @@ import { ConfigModule } from 'src/nest-modules/config-module/config.module';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
 import { GenresModule } from 'src/nest-modules/genres-module/genres.module';
 import { SharedModule } from 'src/nest-modules/shared-module/shared.module';
+import { VideosModule } from 'src/nest-modules/videos-module/videos.module';
 import { CategoriesModule } from './nest-modules/categories-module/categories.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { CategoriesModule } from './nest-modules/categories-module/categories.mo
     SharedModule,
     CastMembersModule,
     GenresModule,
+    VideosModule,
   ],
   controllers: [],
   providers: [],
