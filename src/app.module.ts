@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { CastMembersModule } from 'src/nest-modules/cast-members/cast-members.module';
 import { ConfigModule } from 'src/nest-modules/config-module/config.module';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
@@ -9,23 +8,24 @@ import { RabbitmqModule } from 'src/nest-modules/rabbitmq-module/rabbitmq.module
 import { SharedModule } from 'src/nest-modules/shared-module/shared.module';
 import { UseCaseModule } from 'src/nest-modules/use-case-module/use-case.module';
 import { VideosModule } from 'src/nest-modules/videos-module/videos.module';
+import { RabbitMQFakeConsumer } from 'src/rabbitmq-fake.consumer';
+import { RabbitmqFakeController } from 'src/rabbitmq-fake/rabbitmq-fake.controller';
 import { CategoriesModule } from './nest-modules/categories-module/categories.module';
 
 @Module({
   imports: [
-    NestConfigModule.forRoot(),
     ConfigModule.forRoot(),
-    DatabaseModule,
-    CategoriesModule,
-    EventModule,
     SharedModule,
-    CastMembersModule,
+    DatabaseModule,
+    EventModule,
     UseCaseModule,
+    RabbitmqModule.forRoot(),
+    CategoriesModule,
+    CastMembersModule,
     GenresModule,
     VideosModule,
-    RabbitmqModule.forRoot(),
   ],
-  controllers: [],
-  providers: [],
+  providers: [RabbitMQFakeConsumer],
+  controllers: [RabbitmqFakeController],
 })
 export class AppModule {}
