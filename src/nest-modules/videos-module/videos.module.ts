@@ -11,6 +11,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { CastMembersModule } from 'src/nest-modules/cast-members/cast-members.module';
 import { CategoriesModule } from 'src/nest-modules/categories-module/categories.module';
 import { GenresModule } from 'src/nest-modules/genres-module/genres.module';
+import { RabbitmqModule } from 'src/nest-modules/rabbitmq-module/rabbitmq.module';
 import { VideosController } from 'src/nest-modules/videos-module/videos.controller';
 import { VIDEOS_PROVIDERS } from 'src/nest-modules/videos-module/videos.providers';
 
@@ -27,6 +28,7 @@ import { VIDEOS_PROVIDERS } from 'src/nest-modules/videos-module/videos.provider
     CategoriesModule,
     GenresModule,
     CastMembersModule,
+    RabbitmqModule.forFeature(),
   ],
   controllers: [VideosController],
   providers: [

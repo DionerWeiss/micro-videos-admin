@@ -1,6 +1,9 @@
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
 import { DomainEventMediator } from '@core/shared/domain/events/domain-event-mediator';
-import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
+import {
+  IDomainEvent,
+  IIntegrationEvent,
+} from '@core/shared/domain/events/domain-event.interface';
 import { ValueObject } from '@core/shared/domain/value-object';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
 import EventEmitter2 from 'eventemitter2';
@@ -14,6 +17,23 @@ class StubEvent implements IDomainEvent {
   ) {
     this.occurred_on = new Date();
     this.event_version = 1;
+  }
+
+  getIntegrationEvent(): StubIntegrationEvent {
+    return new StubIntegrationEvent(this);
+  }
+}
+
+class StubIntegrationEvent implements IIntegrationEvent {
+  occurred_on: Date;
+  event_version: number;
+  payload: any;
+  event_name: string;
+  constructor(event: StubEvent) {
+    this.occurred_on = event.occurred_on;
+    this.event_version = event.event_version;
+    this.payload = event;
+    this.event_name = this.constructor.name;
   }
 }
 
@@ -56,5 +76,33 @@ describe('DomainEventMediator Unit Tests', () => {
     aggregate.action('test');
     await mediator.publish(aggregate);
     await mediator.publish(aggregate);
+  });
+
+  it('should not publish an integration event', () => {
+    expect.assertions(1);
+    const spyEmitAsync = jest.spyOn(mediator['eventEmitter'], 'emitAsync');
+
+    const aggregate = new StubAggregate();
+    aggregate.action('test');
+    Array.from(aggregate.events)[0].getIntegrationEvent = undefined;
+    mediator.publishIntegrationEvents(aggregate);
+    expect(spyEmitAsync).not.toBeCalled();
+  });
+
+  it('should publish integration event', async () => {
+    expect.assertions(4);
+    mediator.register(
+      StubIntegrationEvent.name,
+      async (event: StubIntegrationEvent) => {
+        expect(event.event_name).toBe(StubIntegrationEvent.name);
+        expect(event.event_version).toBe(1);
+        expect(event.occurred_on).toBeInstanceOf(Date);
+        expect(event.payload.name).toBe('test');
+      },
+    );
+
+    const aggregate = new StubAggregate();
+    aggregate.action('test');
+    await mediator.publishIntegrationEvents(aggregate);
   });
 });
