@@ -1,5 +1,5 @@
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
 import { EVENTS_MESSAGE_BROKER_CONFIG } from '@core/shared/infra/message-broker/events-message-broker-config';
 import { RabbitMQMessageBroker } from '@core/shared/infra/message-broker/rabbitmq-message-broker';
 import { ChannelWrapper } from 'amqp-connection-manager';

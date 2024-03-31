@@ -1,7 +1,7 @@
 import { CastMemberId } from '@core/cast-member/domain/cast-member.aggregate';
 import { CategoryId } from '@core/category/domain/category.aggregate';
 import { GenreId } from '@core/genre/domain/genre.aggregate';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { Banner } from '@core/video/domain/banner.vo';
 import { Rating } from '@core/video/domain/rating.vo';
 import { ThumbnailHalf } from '@core/video/domain/thumbnail-half.vo';

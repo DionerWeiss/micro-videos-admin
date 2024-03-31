@@ -1,4 +1,4 @@
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { ConsumeMessage } from 'amqplib';
 import { Uuid } from '../../../domain/value-objects/uuid.vo';

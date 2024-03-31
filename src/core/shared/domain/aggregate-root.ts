@@ -1,5 +1,5 @@
 import { Entity } from '@core/shared/domain/entity';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 
 import EventEmitter2 from 'eventemitter2';
 

@@ -1,4 +1,4 @@
-import { DomainEventMediator } from '@core/shared/events/domain-event-mediator';
+import { DomainEventMediator } from '@core/shared/domain/events/domain-event-mediator';
 import EventEmitter2 from 'eventemitter2';
 import { AggregateRoot } from '../../domain/aggregate-root';
 import { IUnitOfWork } from '../../domain/repository/unit-of-work.interface';

@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
+import { DomainEventMediator } from '@core/shared/domain/events/domain-event-mediator';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { ValueObject } from '@core/shared/domain/value-object';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
-import { DomainEventMediator } from '@core/shared/events/domain-event-mediator';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
 import EventEmitter2 from 'eventemitter2';
 
 class StubEvent implements IDomainEvent {

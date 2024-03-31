@@ -1,5 +1,5 @@
 import { IMessageBroker } from '@core/shared/application/message-broker.interface';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { EVENTS_MESSAGE_BROKER_CONFIG } from '@core/shared/infra/message-broker/events-message-broker-config';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 

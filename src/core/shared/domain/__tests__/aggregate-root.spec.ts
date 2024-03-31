@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@core/shared/domain/aggregate-root';
+import { IDomainEvent } from '@core/shared/domain/events/domain-event.interface';
 import { Uuid } from '@core/shared/domain/value-objects/uuid.vo';
-import { IDomainEvent } from '@core/shared/events/domain-event.interface';
 
 class StubEvent implements IDomainEvent {
   occurred_on: Date;
