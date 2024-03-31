@@ -12,6 +12,6 @@ export class PublishVideoMediaReplacedInQueueHandler
 
   @OnEvent(VideoAudioMediaUploadedIntegrationEvent.name)
   async handle(event: VideoAudioMediaUploadedIntegrationEvent): Promise<void> {
-    console.log(event);
+    this.messageBroker.publishEvent(event);
   }
 }
