@@ -12,6 +12,7 @@ import { CastMembersModule } from 'src/nest-modules/cast-members/cast-members.mo
 import { CategoriesModule } from 'src/nest-modules/categories-module/categories.module';
 import { GenresModule } from 'src/nest-modules/genres-module/genres.module';
 import { RabbitmqModule } from 'src/nest-modules/rabbitmq-module/rabbitmq.module';
+import { VideosConsumers } from 'src/nest-modules/videos-module/videos.consumers';
 import { VideosController } from 'src/nest-modules/videos-module/videos.controller';
 import { VIDEOS_PROVIDERS } from 'src/nest-modules/videos-module/videos.providers';
 
@@ -35,6 +36,7 @@ import { VIDEOS_PROVIDERS } from 'src/nest-modules/videos-module/videos.provider
     ...Object.values(VIDEOS_PROVIDERS.REPOSITORIES),
     ...Object.values(VIDEOS_PROVIDERS.USE_CASES),
     ...Object.values(VIDEOS_PROVIDERS.HANDLERS),
+    VideosConsumers,
   ],
   //exports: [VIDEOS_PROVIDERS.REPOSITORIES.VIDEO_REPOSITORY.provide],
 })
