@@ -6,7 +6,7 @@ import { Injectable, UseFilters, ValidationPipe } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { RabbitmqConsumeErrorFilter } from 'src/nest-modules/rabbitmq-module/rabbitmq-consume-error/rabbitmq-consume-error.filter';
 
-@UseFilters(new RabbitmqConsumeErrorFilter())
+@UseFilters(RabbitmqConsumeErrorFilter)
 @Injectable()
 export class VideosConsumers {
   constructor(private moduleRef: ModuleRef) {}
