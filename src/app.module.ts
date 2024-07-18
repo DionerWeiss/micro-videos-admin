@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from 'src/nest-modules/auth-module/auth.module';
 import { CastMembersModule } from 'src/nest-modules/cast-members/cast-members.module';
 import { ConfigModule } from 'src/nest-modules/config-module/config.module';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
@@ -20,6 +21,7 @@ import { CategoriesModule } from './nest-modules/categories-module/categories.mo
     EventModule,
     UseCaseModule,
     RabbitmqModule.forRoot(),
+    AuthModule,
     CategoriesModule,
     CastMembersModule,
     GenresModule,
