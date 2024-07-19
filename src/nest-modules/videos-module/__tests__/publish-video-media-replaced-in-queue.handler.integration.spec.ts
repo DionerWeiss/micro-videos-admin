@@ -17,6 +17,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ChannelWrapper } from 'amqp-connection-manager';
 import { ConsumeMessage } from 'amqplib';
 import { Sequelize } from 'sequelize';
+import { AuthModule } from 'src/nest-modules/auth-module/auth.module';
 import { CAST_MEMBERS_PROVIDERS } from 'src/nest-modules/cast-members/cast-members.providers';
 import { CATEGORY_PROVIDERS } from 'src/nest-modules/categories-module/categories.providers';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
@@ -40,6 +41,7 @@ describe('PublishVideoMediaReplacedInQueueHandler Integration Tests', () => {
         EventModule,
         UseCaseModule,
         RabbitmqModule.forRoot(),
+        AuthModule,
         VideosModule,
       ],
     })

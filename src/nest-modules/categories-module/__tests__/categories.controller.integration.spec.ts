@@ -7,6 +7,7 @@ import { UpdateCategoryUseCase } from '@core/category/application/use-cases/upda
 import { Category, CategoryId } from '@core/category/domain/category.aggregate';
 import { ICategoryRepository } from '@core/category/domain/category.repository';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AuthModule } from 'src/nest-modules/auth-module/auth.module';
 import { CategoriesController } from 'src/nest-modules/categories-module/categories.controller';
 import { CategoriesModule } from 'src/nest-modules/categories-module/categories.module';
 import {
@@ -28,7 +29,12 @@ describe('CategoriesController Integration Tests', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot(), DatabaseModule, CategoriesModule],
+      imports: [
+        ConfigModule.forRoot(),
+        DatabaseModule,
+        AuthModule,
+        CategoriesModule,
+      ],
     }).compile();
     controller = module.get<CategoriesController>(CategoriesController);
     repository = module.get<ICategoryRepository>(

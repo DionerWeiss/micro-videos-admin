@@ -5,6 +5,7 @@ import { DynamicModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import EventEmitter2 from 'eventemitter2';
+import { AuthModule } from 'src/nest-modules/auth-module/auth.module';
 import { DatabaseModule } from 'src/nest-modules/database-module/database.module';
 import { EventModule } from 'src/nest-modules/event-module/event.module';
 import { SharedModule } from 'src/nest-modules/shared-module/shared.module';
@@ -39,6 +40,7 @@ describe('VideosModule Unit Tests', () => {
         EventModule,
         UseCaseModule,
         DatabaseModule,
+        AuthModule,
         RabbitmqModuleFake.forRoot(),
         VideosModule,
       ],
