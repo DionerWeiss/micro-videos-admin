@@ -9,7 +9,7 @@ import { startApp } from 'src/nest-modules/shared-module/testing/helper';
 import request from 'supertest';
 
 describe('CategoriesController (e2e)', () => {
-  const nestApp = startApp();
+  const appHelper = startApp();
   describe('/categories/:id (GET)', () => {
     describe('should a response error when id is invalid or not found', () => {
       const arrange = [
@@ -33,21 +33,22 @@ describe('CategoriesController (e2e)', () => {
       ];
 
       test.each(arrange)('when id is $id', async ({ id, expected }) => {
-        return request(nestApp.app.getHttpServer())
+        return request(appHelper.app.getHttpServer())
           .get(`/categories/${id}`)
+          .authenticate(appHelper.app)
           .expect(expected.statusCode)
           .expect(expected);
       });
     });
 
     it('should return a category ', async () => {
-      const categoryRepo = nestApp.app.get<ICategoryRepository>(
+      const categoryRepo = appHelper.app.get<ICategoryRepository>(
         CATEGORY_PROVIDERS.REPOSITORIES.CATEGORY_REPOSITORY.provide,
       );
       const category = Category.fake().aCategory().build();
       await categoryRepo.insert(category);
 
-      const res = await request(nestApp.app.getHttpServer())
+      const res = await request(appHelper.app.getHttpServer())
         .get(`/categories/${category.category_id.id}`)
         .expect(200);
       const keyInResponse = GetCategoryFixture.keysInResponse;
