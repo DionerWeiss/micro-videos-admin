@@ -16,7 +16,10 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/nest-modules/auth-module/auth.guard';
+import { CheckIsAdminGuard } from 'src/nest-modules/auth-module/check-is-admin.guard';
 import {
   CategoryCollectionPresenter,
   CategoryPresenter,
@@ -25,6 +28,7 @@ import { SearchCategoriesDto } from 'src/nest-modules/categories-module/dto/sear
 import { UpdateCategoryDto } from 'src/nest-modules/categories-module/dto/update-category.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
+@UseGuards(AuthGuard, CheckIsAdminGuard)
 @Controller('categories')
 export class CategoriesController {
   @Inject(CreateCategoryUseCase)
